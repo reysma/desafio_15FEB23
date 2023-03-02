@@ -1,11 +1,13 @@
 import { Router } from 'express'
 import mongoose from 'mongoose'
-import productsModel from '../dao/models/products.model.js'
+import ProductsController from '../models/products.controller.js'
 
 
 
 
 const router = Router()
+const productController =new ProductsController
+
 router.get('/', async (req, res) => {
 
 
@@ -18,7 +20,7 @@ router.get('/', async (req, res) => {
           lean: true,
         };
         
-        const products = await productsModel.find().lean().exec()
+        const products = await productController.find().lean().exec()
         
         res.render('index', {
             products
@@ -42,7 +44,7 @@ router.get('/', async (req, res) => {
     try {
         const title = req.params.title
 
-        const product = await productsModel.findOne({ title: title }).lean().exec()
+        const product = await productController.findOne({ title: title }).lean().exec()
 
         res.render('one', { product })
 
@@ -60,7 +62,7 @@ router.get('/', async (req, res) => {
 //delete products
 router.get('/delete/:id', async (req, res) => {
     const id = new mongoose.Types.ObjectId(req.params.id)
-    const deleted = await productsModel.deleteOne({ _id: id })
+    const deleted = await productController.deleteOne({ _id: id })
 
     console.log(deleted)
 
@@ -84,7 +86,7 @@ router.post('/create', async (req, res) => {
             })
         }
 
-        const result = await productsModel.create(newProduct);
+        const result = await productController.create(newProduct);
 
         res.send({
             succes: true,

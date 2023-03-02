@@ -12,7 +12,8 @@ import session from 'express-session'
 import sessionRouter from  './router/session.router.js'
 
 
-const PORT = 8080;
+
+const PORT = process.env.PORT || 3000;
 const app = express(); 
 
 // traermos información de post como JSON
@@ -24,8 +25,7 @@ app.use(express.static( __dirname + '/public'))
 app.engine('handlebars', handlebars.engine());
 app.set('views', __dirname + '/views');
 app.set('view engine', 'handlebars');
-const MONGO_URI = 'mongodb+srv://reysma:458260rey@cluster0.o8moagj.mongodb.net/?retryWrites=true&w=majority';
-
+const MONGO_URI = process.env.MONGO_URL
 app.use(session({
   store: MongoStore.create({
       mongoUrl: MONGO_URI,
@@ -35,11 +35,11 @@ app.use(session({
       },
       ttl: 100
   }),
-  secret: '1234567',
+
   resave: true,
   saveUninitialized: true
 }))
-
+secret= process.env.ADMIN_PASSWORD
 mongoose.connect(MONGO_URI, 
   { dbName: "baseCRUD" },  
   (error) => { 
