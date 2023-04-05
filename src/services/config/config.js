@@ -1,7 +1,7 @@
 import dotenv from 'dotenv'
 
-
-export default {
+dotenv.config();
+export default{
     port: process.env.PORT,
     mongoURL: process.env.MONGO_URL,
     adminName: process.env.ADMIN_NAME,
